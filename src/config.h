@@ -29,19 +29,181 @@
 #define FALSE 0
 #define TRUE  (!FALSE)
 
-#if CONFIG_HARDWARE_VARIANT == 1
+#define _DEF_REG(x,y) (x##y)
+#define DEF_REG(x, y) _DEF_REG(x,y)
+
+// Common definitions
 
 #define RGB_LED_NUM 1
 
-static inline __attribute__((always_inline)) void rgb_led_init(void) {
-  DDRA = 0xff;
-}
+#if CONFIG_HARDWARE_VARIANT == 1
 
-static inline __attribute__((always_inline)) void rgb_led_set(uint8_t pos, uint8_t r, uint8_t g, uint8_t b) {
-  //PORTA = 0;  // TODO: NOT SURE I NEED THIS.
-  PORTA = (_BV(4 + pos) | (r ? _BV(0) : 0) | (g ? _BV(1) : 0) | (b ? _BV(2) : 0));
-}
+#define SAME_LED_PORT
+#define LED_REV_POL
 
+#define LED_R_PORT A
+#define LED_G_PORT A
+#define LED_B_PORT A
+
+#define LED_R_PIN PIN0
+#define LED_G_PIN PIN1
+#define LED_B_PIN PIN2
+
+#define SW_0_PORT   B
+#define SW_0_PIN    PIN3
+
+#define SW_1_PORT   B
+#define SW_1_PIN    PIN6
+
+#elif CONFIG_HARDWARE_VARIANT == 2
+// 8 pin devices
+
+#define SAME_LED_PORT
+#define LED_REV_POL
+
+#define LED_R_PORT B
+#define LED_G_PORT B
+#define LED_B_PORT B
+
+#define LED_R_PIN PIN0
+#define LED_G_PIN PIN1
+#define LED_B_PIN PIN2
+
+#define SW_0_PORT   B
+#define SW_0_PIN    PIN3
+
+#define SW_1_PORT   B
+#define SW_1_PIN    PIN4
 
 #endif
+
+#ifdef SW_0_PORT
+  #define SW_0_DDR    DEF_REG(DDR,SW_0_PORT)
+  #define SW_0_OUT    DEF_REG(PORT,SW_0_PORT)
+  #define SW_0_IN     DEF_REG(PIN,SW_0_PORT)
+  #define SW_0_VAL    _BV(SW_0_PIN)
+#endif
+
+#ifdef SW_1_PORT
+  #define SW_1_DDR    DEF_REG(DDR,SW_1_PORT)
+  #define SW_1_OUT    DEF_REG(PORT,SW_1_PORT)
+  #define SW_1_IN     DEF_REG(PIN,SW_1_PORT)
+  #define SW_1_VAL    _BV(SW_1_PIN)
+#endif
+
+static inline void sw_config(void) {
+  // bring up pullup resistors.
+#ifdef SW_0_PORT
+  SW_0_OUT |= SW_0_VAL;
+#endif
+#ifdef SW_1_PORT
+  SW_1_OUT |= SW_1_VAL;
+#endif
+#ifdef SW_2_PORT
+  SW_2_OUT |= SW_2_VAL;
+#endif
+#ifdef SW_3_PORT
+  SW_3_OUT |= SW_3_VAL;
+#endif
+#ifdef SW_4_PORT
+  SW_4_OUT |= SW_4_VAL;
+#endif
+#ifdef SW_5_PORT
+  SW_5_OUT |= SW_5_VAL;
+#endif
+#ifdef SW_6_PORT
+  SW_6_OUT |= SW_6_VAL;
+#endif
+#ifdef SW_7_PORT
+  SW_7_OUT |= SW_7_VAL;
+#endif
+}
+
+static inline uint8_t is_switch(uint8_t sw) {
+  switch(sw) {
+#ifdef SW_0_PORT
+  case 0:
+    return !(SW_0_IN & SW_0_VAL);
+#endif
+#ifdef SW_1_PORT
+    case 1:
+    return !(SW_1_IN & SW_1_VAL);
+#endif
+#ifdef SW_2_PORT
+    case 2:
+    return !(SW_2_IN & SW_2_VAL);
+#endif
+#ifdef SW_3_PORT
+    case 3:
+    return !(SW_3_IN & SW_3_VAL);
+#endif
+#ifdef SW_4_PORT
+    case 4:
+    return !(SW_4_IN & SW_4_VAL);
+#endif
+#ifdef SW_5_PORT
+    case 5:
+    return !(SW_5_IN & SW_5_VAL);
+#endif
+#ifdef SW_6_PORT
+    case 6:
+    return !(SW_6_IN & SW_6_VAL);
+#endif
+#ifdef SW_7_PORT
+    case 7:
+    return !(SW_7_IN & SW_7_VAL);
+#endif
+  }
+  return 0;
+}
+
+#define LED_R_DDR    DEF_REG(DDR,  LED_R_PORT)
+#define LED_R_OUT    DEF_REG(PORT, LED_R_PORT)
+#define LED_R_IN     DEF_REG(PIN,  LED_R_PORT)
+#define LED_R_VAL    _BV(LED_R_PIN)
+
+#define LED_G_DDR    DEF_REG(DDR,  LED_G_PORT)
+#define LED_G_OUT    DEF_REG(PORT, LED_G_PORT)
+#define LED_G_IN     DEF_REG(PIN,  LED_G_PORT)
+#define LED_G_VAL    _BV(LED_G_PIN)
+
+#define LED_B_DDR    DEF_REG(DDR,  LED_B_PORT)
+#define LED_B_OUT    DEF_REG(PORT, LED_B_PORT)
+#define LED_B_IN     DEF_REG(PIN,  LED_B_PORT)
+#define LED_B_VAL    _BV(LED_B_PIN)
+
+// easy defines for the simple single LED options
+#if defined(LED_R_PORT) && defined(LED_G_PORT) && defined (LED_B_PORT)
+static inline __attribute__((always_inline)) void rgb_led_init(void) {
+#ifdef SAME_LED_PORT
+  LED_R_DDR |= (LED_R_VAL | LED_G_VAL | LED_B_VAL);
+#else
+  LED_R_DDR |= LED_R_VAL;
+  LED_G_DDR |= LED_G_VAL;
+  LED_B_DDR |= LED_B_VAL;
+#endif
+}
+
+#ifdef LED_REV_POL
+#define REV(x) (!x)
+#else
+#define REV(x) (x)
+#endif
+
+static inline __attribute__((always_inline)) void rgb_led_set(uint8_t pos __attribute__((unused)), uint8_t r, uint8_t g, uint8_t b) {
+  //PORTA = (_BV(4 + pos) | (r ? _BV(0) : 0) | (g ? _BV(1) : 0) | (b ? _BV(2) : 0));
+  LED_R_OUT = (REV(r) ? LED_R_OUT |= LED_R_VAL : LED_R_OUT & ~LED_R_VAL);
+  LED_G_OUT = (REV(g) ? LED_G_OUT |= LED_G_VAL : LED_G_OUT & ~LED_G_VAL);
+  LED_B_OUT = (REV(b) ? LED_B_OUT |= LED_B_VAL : LED_B_OUT & ~LED_B_VAL);
+}
+#endif
+
+#define RED 255,0,0
+#define GREEN 0,255,0
+#define BLUE 0,0,255
+#define BLACK 0,0,0
+#define GRAY 128,128,128
+#define LT_GRAY 192,192,192
+#define WHITE 255,255,255
+
 #endif  /*CONFIG_H*/

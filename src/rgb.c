@@ -25,13 +25,13 @@
 #include "config.h"
 #include "rgb.h"
 
-static uint8_t RGB[RGB_LED_NUM * 3];
+static rgb_t _rgb[RGB_LED_NUM];
 static volatile uint8_t _count;
 static volatile uint8_t _led;
 
 ISR(RGB_IRQ_vect) {
   uint8_t r,g,b;
-  uint8_t* p;
+  rgb_t *rgb;
 
 
   if(_led >= RGB_LED_NUM) {
@@ -39,27 +39,29 @@ ISR(RGB_IRQ_vect) {
     _count++;
   }
 
-  p = &RGB[_led * 3];
+  rgb = &_rgb[_led];
 
-  r = (*p++ > _count ? TRUE : FALSE);
-  g = (*p++ > _count ? TRUE : FALSE);
-  b = (*p++ > _count ? TRUE : FALSE);
+  r = (rgb->red > _count ? TRUE : FALSE);
+  g = (rgb->grn > _count ? TRUE : FALSE);
+  b = (rgb->blu > _count ? TRUE : FALSE);
 
   rgb_led_set(_led, r, g, b);
   _led++;
 }
 
 void rgb_set(uint8_t led, uint8_t red, uint8_t grn, uint8_t blu ) {
-  uint8_t* p = &RGB[led * 3];
+  rgb_t *rgb;
 
   if(led < RGB_LED_NUM) {
-    *p++ = red;
-    *p++ = grn;
-    *p++ = blu;
+    rgb = &_rgb[led];
+    rgb->red = red;
+    rgb->grn = grn;
+    rgb->blu = blu;
   }
 }
 
 void rgb_init(void) {
   rgb_timer_config();
   rgb_led_init();
+  rgb_led_set(0,0,0,0);
 }

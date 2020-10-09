@@ -553,7 +553,7 @@ extcoff: $(TARGET).elf
 .PRECIOUS : $(OBJDIR)/autoconf.h
 $(OBJDIR)/autoconf.h: $(CONFIG) | $(OBJDIR)
 	$(E) "  CONF2H $(CONFIG)"
-	$(Q)gawk -f conf2h.awk $(CONFIG) > $(OBJDIR)/autoconf.h
+	$(Q)gawk -f scripts/conf2h.awk $(CONFIG) > $(OBJDIR)/autoconf.h
 
 # Create final output files (.hex, .eep) from ELF output file.
 ifeq ($(CONFIG_BOOTLOADER),y)

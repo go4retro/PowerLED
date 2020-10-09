@@ -43,7 +43,25 @@ static inline __attribute__((always_inline)) void rgb_timer_config(void) {
   TIMSK |= _BV(OCIE1A);
 }
 
+#elif defined __AVR_ATtiny13__
+
+#  define RGB_IRQ_vect   TIM0_COMPA_vect
+#  define RGB_OCR        OCR0A
+
+static inline __attribute__((always_inline)) void rgb_timer_config(void) {
+  TCNT0 = 0;
+  OCR0A = (F_CPU/8/60/256/3/RGB_LED_NUM) - 1; // CPU/8, 60 times a sec, 256 steps per cycle, RGB_LED_NUM LEDs per RGB
+  TCCR0B = _BV(CS00); // divide by 8
+  TIMSK0 |= _BV(OCIE0A);
+}
+
 #endif
+
+typedef struct _rgb_t {
+  uint8_t red;
+  uint8_t grn;
+  uint8_t blu;
+} rgb_t;
 
 void rgb_set(uint8_t led, uint8_t red, uint8_t grn, uint8_t blu);
 void rgb_init(void);

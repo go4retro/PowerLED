@@ -31,7 +31,7 @@ static inline void set_color(uint8_t sw) {
   switch(sw) {
 #ifdef SW_0_PORT
   case 0:
-    rgb_set(0,CONFIG_SW_1_COLOR);
+    rgb_set(0,CONFIG_SW_0_COLOR);
     break;
 #endif
 #ifdef SW_1_PORT

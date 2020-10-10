@@ -17,9 +17,9 @@ VIC-20 case to show all 3 conditions (uIEC power not on, error, and normal opera
 while also providing a neat visible draw for the show audience with the color cycling
 LED effect.
 
-![VIC SW Int]("https://www.github.com/go4retro/PowerLED/pics/VIC SW Int.JPG")
+![VIC SW Int](https://github.com/go4retro/PowerLED/blob/master/pics/VIC%20SW%20Int.JPG)
 
-![VIC SW]("https://www.github.com/go4retro/PowerLED/pics/VIC SW.JPG")
+![VIC SW](https://github.com/go4retro/PowerLED/blob/master/pics/VIC%20SW.JPG)
 
 I've removed some of the uIEC/SD specific stuff in the codebase and generalized the
 rest of the code, but the main idea is still the same.  (And yes, the ATTINY26 was

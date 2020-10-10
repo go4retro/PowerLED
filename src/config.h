@@ -138,6 +138,48 @@
   #define SW_1_VAL    _BV(SW_1_PIN)
 #endif
 
+#ifdef SW_2_PORT
+  #define SW_2_DDR    DEF_REG(DDR,SW_2_PORT)
+  #define SW_2_OUT    DEF_REG(PORT,SW_2_PORT)
+  #define SW_2_IN     DEF_REG(PIN,SW_2_PORT)
+  #define SW_2_VAL    _BV(SW_2_PIN)
+#endif
+
+#ifdef SW_3_PORT
+  #define SW_3_DDR    DEF_REG(DDR,SW_3_PORT)
+  #define SW_3_OUT    DEF_REG(PORT,SW_3_PORT)
+  #define SW_3_IN     DEF_REG(PIN,SW_3_PORT)
+  #define SW_3_VAL    _BV(SW_3_PIN)
+#endif
+
+#ifdef SW_4_PORT
+  #define SW_4_DDR    DEF_REG(DDR,SW_4_PORT)
+  #define SW_4_OUT    DEF_REG(PORT,SW_4_PORT)
+  #define SW_4_IN     DEF_REG(PIN,SW_4_PORT)
+  #define SW_4_VAL    _BV(SW_4_PIN)
+#endif
+
+#ifdef SW_5_PORT
+  #define SW_5_DDR    DEF_REG(DDR,SW_5_PORT)
+  #define SW_5_OUT    DEF_REG(PORT,SW_5_PORT)
+  #define SW_5_IN     DEF_REG(PIN,SW_5_PORT)
+  #define SW_5_VAL    _BV(SW_5_PIN)
+#endif
+
+#ifdef SW_6_PORT
+  #define SW_6_DDR    DEF_REG(DDR,SW_6_PORT)
+  #define SW_6_OUT    DEF_REG(PORT,SW_6_PORT)
+  #define SW_6_IN     DEF_REG(PIN,SW_6_PORT)
+  #define SW_6_VAL    _BV(SW_6_PIN)
+#endif
+
+#ifdef SW_7_PORT
+  #define SW_7_DDR    DEF_REG(DDR,SW_7_PORT)
+  #define SW_7_OUT    DEF_REG(PORT,SW_7_PORT)
+  #define SW_7_IN     DEF_REG(PIN,SW_7_PORT)
+  #define SW_7_VAL    _BV(SW_7_PIN)
+#endif
+
 static inline void sw_config(void) {
   // bring up pullup resistors.
 #ifdef SW_0_PORT

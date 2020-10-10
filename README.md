@@ -69,7 +69,7 @@ are using):
 
 `make CONFIG=config-t13 fuses program`
 
-This will set the fuses to 8MHz RC oscillator, no clock divion, and everything else
+This will set the fuses to 8MHz RC oscillator, no clock division, and everything else
 off (no watchdog timer, etc.).  Pretty basic.  It will then compile and flash the 
 code onto the uC.
 
@@ -97,5 +97,5 @@ If there is interest, I can add more features:
 Feel free to hack the code, but I would appreciate folks fork the project and
 contribute the ideas back into the main codebase.
 
-*Jim Brain*
+*Jim Brain*<br>
 *RETRO Innovations*

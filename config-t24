@@ -26,7 +26,7 @@
 #  This system based on sd2iec Makefile by Ingo Korb
 
 # MCU to compile for
-CONFIG_MCU=attiny26
+CONFIG_MCU=attiny24
 
 # Use the -relax parameter when linking?
 # Passing -O9 and -relax to the linker saves ~650 bytes of flash,
@@ -48,8 +48,9 @@ CONFIG_HARDWARE_VARIANT=3
 # Warning: This option increases the code size a lot.
 CONFIG_STACK_TRACKING=n
 
-CONFIG_HFUSE=0x17
-CONFIG_LFUSE=0xE4
+CONFIG_EFUSE=0xFF
+CONFIG_HFUSE=0xDF
+CONFIG_LFUSE=0xE2
 
 CONFIG_SW_0_COLOR=RED
 CONFIG_SW_1_COLOR=WHITE
@@ -58,6 +59,6 @@ CONFIG_SW_3_COLOR=GREEN
 CONFIG_SW_4_COLOR=YELLOW
 CONFIG_SW_5_COLOR=ORANGE
 CONFIG_SW_6_COLOR=PURPLE
-CONFIG_SW_7_COLOR=WHITE
+CONFIG_SW_7_COLOR=BLACK
 
 CONFIG_COLOR_DELAY=10

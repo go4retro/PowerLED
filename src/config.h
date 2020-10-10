@@ -24,7 +24,9 @@
 #define CONFIG_H
 
 #include <avr/io.h>
+#ifndef ARDUINO
 #include "autoconf.h"
+#endif
 
 #define FALSE 0
 #define TRUE  (!FALSE)
@@ -35,6 +37,20 @@
 // Common definitions
 
 #define RGB_LED_NUM 1
+
+#if defined ARDUINO_AVR_UNO || defined ARDUINO_AVR_PRO || defined ARDUINO_AVR_NANO
+  #define CONFIG_HARDWARE_VARIANT   4
+  #define CONFIG_SW_0_COLOR RED
+  #define CONFIG_SW_1_COLOR WHITE
+  #define CONFIG_SW_2_COLOR BLUE
+  #define CONFIG_SW_3_COLOR GREEN
+  #define CONFIG_SW_4_COLOR YELLOW
+  #define CONFIG_SW_5_COLOR ORANGE
+  #define CONFIG_SW_6_COLOR PURPLE
+  #define CONFIG_SW_7_COLOR BLACK
+
+  #define CONFIG_COLOR_DELAY 10
+#endif
 
 #if CONFIG_HARDWARE_VARIANT == 1
 
@@ -118,6 +134,46 @@
 
 #define SW_7_PORT   A
 #define SW_7_PIN    PIN7
+
+#elif CONFIG_HARDWARE_VARIANT == 4
+// 14 pin devices
+
+#define SAME_LED_PORT
+#ifndef CONFIG_LED_REV_POL
+#define LED_REV_POL
+#endif
+
+#define LED_R_PORT D
+#define LED_G_PORT D
+#define LED_B_PORT D
+
+#define LED_R_PIN PIN2
+#define LED_G_PIN PIN3
+#define LED_B_PIN PIN4
+
+#define SW_0_PORT   B
+#define SW_0_PIN    PIN0
+
+#define SW_1_PORT   B
+#define SW_1_PIN    PIN1
+
+#define SW_2_PORT   B
+#define SW_2_PIN    PIN2
+
+#define SW_3_PORT   B
+#define SW_3_PIN    PIN3
+
+#define SW_4_PORT   C
+#define SW_4_PIN    PIN0
+
+#define SW_5_PORT   C
+#define SW_5_PIN    PIN1
+
+#define SW_6_PORT   C
+#define SW_6_PIN    PIN2
+
+#define SW_7_PORT   C
+#define SW_7_PIN    PIN3
 
 #else
 #  error Unknown hardware configuration in config.h. Please add information for this hardware.

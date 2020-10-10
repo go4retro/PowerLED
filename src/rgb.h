@@ -58,6 +58,18 @@ static inline __attribute__((always_inline)) void rgb_timer_config(void) {
   TIMSK0 |= _BV(OCIE0A);
 }
 
+#elif defined(__AVR_ATmega88__) || defined (__AVR_ATmega168__) || defined(__AVR_ATmega328__) || defined(__AVR_ATmega48__) || defined(__AVR_ATmega328P__)
+
+#  define RGB_IRQ_vect   TIMER0_COMPA_vect
+#  define RGB_OCR        OCR0A
+
+static inline __attribute__((always_inline)) void rgb_timer_config(void) {
+  TCNT0 = 0;
+  OCR0A = (F_CPU/8/60/256/3/RGB_LED_NUM) - 1; // CPU/8, 60 times a sec, 256 steps per cycle, RGB_LED_NUM LEDs per RGB
+  TCCR0B = _BV(CS00); // divide by 8
+  TIMSK0 |= _BV(OCIE0A);
+}
+
 #else
 #  error Unknown uC in rgb.h. Please add config for this uC.
 #endif

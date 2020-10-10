@@ -26,7 +26,7 @@
 #  This system based on sd2iec Makefile by Ingo Korb
 
 # MCU to compile for
-CONFIG_MCU=attiny26
+CONFIG_MCU=atmega328p
 
 # Use the -relax parameter when linking?
 # Passing -O9 and -relax to the linker saves ~650 bytes of flash,
@@ -35,14 +35,15 @@ CONFIG_MCU=attiny26
 CONFIG_LINKER_RELAX=y
 
 # MCU frequency in Hz
-CONFIG_MCU_FREQ=8000000
+CONFIG_MCU_FREQ=16000000
 
 # Select which hardware to compile for
 # Valid values:
 #   1 - ATTiny26 board
 #   2 - ATTiny13 board
 #   3 - ATTiny24 board
-CONFIG_HARDWARE_VARIANT=1
+#   4 - Arduion m328 board
+CONFIG_HARDWARE_VARIANT=4
 
 # Track the stack size
 # Warning: This option increases the code size a lot.
@@ -61,3 +62,6 @@ CONFIG_SW_6_COLOR=PURPLE
 CONFIG_SW_7_COLOR=BLACK
 
 CONFIG_COLOR_DELAY=10
+
+AVRDUDE_PROGRAMMER=arduino
+AVRDUDE_PORT=COM6

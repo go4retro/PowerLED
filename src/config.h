@@ -39,6 +39,7 @@
 #define RGB_LED_NUM 1
 
 #if defined ARDUINO_AVR_UNO || defined ARDUINO_AVR_PRO || defined ARDUINO_AVR_NANO
+// Arduino IDE does not allow us to create the autoconf.h file, so we have to add those things in here.
   #define CONFIG_HARDWARE_VARIANT   4
   #define CONFIG_SW_0_COLOR RED
   #define CONFIG_SW_1_COLOR WHITE

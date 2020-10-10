@@ -39,7 +39,9 @@
 #if CONFIG_HARDWARE_VARIANT == 1
 
 #define SAME_LED_PORT
+#ifndef CONFIG_LED_REV_POL
 #define LED_REV_POL
+#endif
 
 #define LED_R_PORT A
 #define LED_G_PORT A
@@ -59,7 +61,9 @@
 // 8 pin devices
 
 #define SAME_LED_PORT
+#ifndef CONFIG_LED_REV_POL
 #define LED_REV_POL
+#endif
 
 #define LED_R_PORT B
 #define LED_G_PORT B
@@ -75,7 +79,50 @@
 #define SW_1_PORT   B
 #define SW_1_PIN    PIN4
 
+#elif CONFIG_HARDWARE_VARIANT == 3
+// 14 pin devices
+
+#define SAME_LED_PORT
+#ifndef CONFIG_LED_REV_POL
+#define LED_REV_POL
 #endif
+
+#define LED_R_PORT B
+#define LED_G_PORT B
+#define LED_B_PORT B
+
+#define LED_R_PIN PIN0
+#define LED_G_PIN PIN1
+#define LED_B_PIN PIN2
+
+#define SW_0_PORT   A
+#define SW_0_PIN    PIN0
+
+#define SW_1_PORT   A
+#define SW_1_PIN    PIN1
+
+#define SW_2_PORT   A
+#define SW_2_PIN    PIN2
+
+#define SW_3_PORT   A
+#define SW_3_PIN    PIN3
+
+#define SW_4_PORT   A
+#define SW_4_PIN    PIN4
+
+#define SW_5_PORT   A
+#define SW_5_PIN    PIN5
+
+#define SW_6_PORT   A
+#define SW_6_PIN    PIN6
+
+#define SW_7_PORT   A
+#define SW_7_PIN    PIN7
+
+#else
+#  error Unknown hardware configuration in config.h. Please add information for this hardware.
+#endif
+
 
 #ifdef SW_0_PORT
   #define SW_0_DDR    DEF_REG(DDR,SW_0_PORT)
@@ -184,6 +231,10 @@ static inline __attribute__((always_inline)) void rgb_led_init(void) {
 #endif
 }
 
+#if defined(CONFIG_LED_REV_POL) && CONFIG_LED_REV_POL==y
+#define LED_REV_POL
+#endif
+
 #ifdef LED_REV_POL
 #define REV(x) (!x)
 #else
@@ -198,12 +249,21 @@ static inline __attribute__((always_inline)) void rgb_led_set(uint8_t pos __attr
 }
 #endif
 
-#define RED 255,0,0
-#define GREEN 0,255,0
-#define BLUE 0,0,255
-#define BLACK 0,0,0
-#define GRAY 128,128,128
+#define BLACK   0,0,0
+#define BROWN   102,51,0
+#define RED     255,0,0
+#define ORANGE  255,128,0
+#define YELLOW  255,255,0
+#define GREEN   0,255,0
+#define BLUE    0,0,255
+#define GRAY    128,128,128
+#define GOLD    153,153,0
+
 #define LT_GRAY 192,192,192
-#define WHITE 255,255,255
+#define WHITE   255,255,255
+#define PURPLE  127,0,255
+#define PLUM    255,0,255
+
+
 
 #endif  /*CONFIG_H*/

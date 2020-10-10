@@ -22,16 +22,19 @@
 #ifndef RGB_H
 #define RGB_H
 
-#if defined __AVR_ATtiny2313__
+#if defined(__AVR_ATtiny2313__)
 
 #  define RGB_IRQ_vect   TIMER0_COMPA_vect
-#  define RGB_TCCRA      TCCR0A
-#  define RGB_TCCRB      TCCR0B
 #  define RGB_OCR        OCR0A
-#  define RGB_TCNT       TCNT0
-#  define RGB_TIMSK      TIMSK
 
-#elif defined __AVR_ATtiny26__
+static inline __attribute__((always_inline)) void rgb_timer_config(void) {
+  TCNT0 = 0;
+  OCR0A = (F_CPU/8/60/256/3/RGB_LED_NUM) - 1; // CPU/8, 60 times a sec, 256 steps per cycle, RGB_LED_NUM LEDs per RGB
+  TCCR0B = _BV(CS00); // divide by 8
+  TIMSK |= _BV(OCIE0A);
+}
+
+#elif defined(__AVR_ATtiny26__)
 
 #  define RGB_IRQ_vect   TIMER1_CMPA_vect
 #  define RGB_OCR        OCR1A
@@ -43,7 +46,7 @@ static inline __attribute__((always_inline)) void rgb_timer_config(void) {
   TIMSK |= _BV(OCIE1A);
 }
 
-#elif defined __AVR_ATtiny13__
+#elif defined(__AVR_ATtiny13__) || defined (__AVR_ATtiny24__) || defined(__AVR_ATtiny44__) || defined(__AVR_ATtiny44__)
 
 #  define RGB_IRQ_vect   TIM0_COMPA_vect
 #  define RGB_OCR        OCR0A
@@ -55,6 +58,8 @@ static inline __attribute__((always_inline)) void rgb_timer_config(void) {
   TIMSK0 |= _BV(OCIE0A);
 }
 
+#else
+#  error Unknown uC in rgb.h. Please add config for this uC.
 #endif
 
 typedef struct _rgb_t {

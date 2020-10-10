@@ -42,7 +42,7 @@ CONFIG_MCU_FREQ=8000000
 #   1 - ATTiny26 board
 #   2 - ATTiny13 board
 #   3 - ATTiny24 board
-CONFIG_HARDWARE_VARIANT=1
+CONFIG_HARDWARE_VARIANT=3
 
 # Track the stack size
 # Warning: This option increases the code size a lot.
